@@ -9,10 +9,10 @@ public class MainController implements ActionListener
     //private String hexadecimal;
     // inputs
     private String sign; //first text box
-    private String exponent; //second text box
+    private String exponent_r; //second text box
     private String binary; //third text box
 
-    private String hexadecimal;
+    private String hexadecimal = "";
 
     public MainController()
     {
@@ -28,7 +28,8 @@ public class MainController implements ActionListener
             //Get input
             sign = GUI.getsign_textField().getText(); //REMOVE since sign isnt part of our input
             binary = GUI.getinputBinary_textField().getText(); // KEEP, add another like this but "Hexadecimal"
-            exponent = GUI.getexponent_textField().getText(); // REMOVE since the exponent isnt part of our input
+            hexadecimal = GUI.getInputHexadecimal_textField().getText(); // KEEP, add another like this but "Hexadecimal"
+            exponent_r = GUI.getexponent_textField().getText(); // REMOVE since the exponent isnt part of our input
             System.out.printf("Sign: %s\n", sign);
             System.out.printf("Binary: %s\n", binary);
             System.out.printf("Exponent: %s\n", exponent);
@@ -51,6 +52,62 @@ public class MainController implements ActionListener
 
             // BEFORE the normalize code below, put a function for converting hexadecimal to binary(?)
             // https://www.geeksforgeeks.org/java-program-to-convert-hexadecimal-to-binary/
+            // variable to store the converted
+            // Binary Sequence
+
+            // converting the accepted Hexadecimal
+            // string to upper case
+            if(hexadecimal != "") {
+                hexadecimal = hexadecimal.toUpperCase();
+
+                // initializing the HashMap class
+                HashMap<Character, String> hashMap
+                        = new HashMap<Character, String>();
+
+                // storing the key value pairs
+                hashMap.put('0', "0000");
+                hashMap.put('1', "0001");
+                hashMap.put('2', "0010");
+                hashMap.put('3', "0011");
+                hashMap.put('4', "0100");
+                hashMap.put('5', "0101");
+                hashMap.put('6', "0110");
+                hashMap.put('7', "0111");
+                hashMap.put('8', "1000");
+                hashMap.put('9', "1001");
+                hashMap.put('A', "1010");
+                hashMap.put('B', "1011");
+                hashMap.put('C', "1100");
+                hashMap.put('D', "1101");
+                hashMap.put('E', "1110");
+                hashMap.put('F', "1111");
+
+                int i;
+                char ch;
+
+                // loop to iterate through the length
+                // of the Hexadecimal String
+                for (i = 0; i < hexadecimal.length(); i++) {
+                    // extracting each character
+                    ch = hexadecimal.charAt(i);
+
+                    // checking if the character is
+                    // present in the keys
+                    if (hashMap.containsKey(ch))
+
+                        // adding to the Binary Sequence
+                        // the corresponding value of
+                        // the key
+                        binary += hashMap.get(ch);
+
+                        // returning Invalid Hexadecimal
+                        // String if the character is
+                        // not present in the keys
+                    else {
+                        binary = "Invalid Hexadecimal String";
+                    }
+                }
+            }
 
             //normalize if not within range 1.0 to 2.0, if input is 0 then immediately convert (if input is binary)
             int ctr = 0;
@@ -85,8 +142,8 @@ public class MainController implements ActionListener
             // In our case, we should extract the first character then store it sa signbit variable. Then I guess we just swap
             // The + with 0 and - with 1 in this part below
             //get the sign bit
-            String signbit="";
-            if(sign.equals("+"))
+            String signbit = "";
+            if(sign.equals("0"))
             {
                 signbit = "0";
             }
@@ -102,7 +159,7 @@ public class MainController implements ActionListener
             //		e_prime = binary.charAt(i)
             //
             // e = Integer.parseInt(e_prime,2)) - 1023 (Ex. 5 = 1028-1023)
-            int int_exponent = Integer.parseInt(exponent);
+            int int_exponent = Integer.parseInt(exponent_r);
             //add ctr to exponent after normalizing
             int_exponent += ctr;
             int e_prime = int_exponent + 127;
