@@ -6,20 +6,19 @@ import javax.swing.JOptionPane;
 public class MainController implements ActionListener
 {
     private MainGUI GUI;
-    private String sign;
     //private String hexadecimal;
-    private String exponent;
     // inputs
-    private String binary;
+    private String sign; //first text box
+    private String exponent; //second text box
+    private String binary; //third text box
+
     private String hexadecimal;
 
     public MainController()
     {
-
         GUI = new MainGUI();
         GUI.getConvertButton().addActionListener(this);
         GUI.getClearButton().addActionListener(this);
-
     }
 
     @Override
@@ -35,27 +34,18 @@ public class MainController implements ActionListener
             System.out.printf("Exponent: %s\n", exponent);
 
             //checking if sign is not + or -
-            //REMOVE since the exponent isnt part of our input
-            if (!(sign.equals("+")) && !(sign.equals("-")))
+            if (!(sign.equals("0")) && !(sign.equals("1")))
             {
-                JOptionPane.showMessageDialog(null, "Invalid sign input! + or - only.");
+                JOptionPane.showMessageDialog(null, "Invalid sign input! 1 or 0 only.");
                 GUI.getsign_textField().setText("");
             }
 
             //KEEP
             //Maybe change the condition to binary.length()==0 && hexadecimal.length() == 0
             //Since ours can have either of the inputs
-            if (binary.length() == 0)
+            if (binary.length() == 0 && hexadecimal.length() == 0)
             {
-                JOptionPane.showMessageDialog(null, "Binary field is empty. Try again.");
-
-
-            }
-
-            //REMOVE since the exponent isnt part of our input
-            if (exponent.length() == 0)
-            {
-                JOptionPane.showMessageDialog(null, "Exponent field is empty. Try again.");
+                JOptionPane.showMessageDialog(null, "Binary and Hexadecimal fields are empty. Try again.");
 
             }
 
