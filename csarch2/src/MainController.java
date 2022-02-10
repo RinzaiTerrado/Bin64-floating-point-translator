@@ -169,7 +169,7 @@ public class MainController implements ActionListener
 		return true;
 	}
 
-	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("00000000000") == true && !(binary.equals("0") == true)){
+	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("00000000000") == true && !(binary.equals("0000000000000000000000000000000000000000000000000000") == true)){
         	result = "Denormalized";
 		return true;
 	}
