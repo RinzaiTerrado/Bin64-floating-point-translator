@@ -159,37 +159,37 @@ public class MainController implements ActionListener
     }
     
     private static boolean specialCase(String result){
-    	if(sign.equals("0") && exponent.equals("00000000000") && binary.equals("0000000000000000000000000000000000000000000000000000")){
+    	if(sign.equals("0") == true && exponent.equals("00000000000") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
         	result = "+0";
 		return true;
 	}
 
-	if(sign.equals("1") && exponent.equals("00000000000") && binary.equals("0000000000000000000000000000000000000000000000000000")){
+	if(sign.equals("1") == true && exponent.equals("00000000000") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
        		result = "-0";
 		return true;
 	}
 
-	if((sign.equals("0") || sign.equals("1")) && exponent.equals("00000000000") && !(binary.equals("0"))){
+	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("00000000000") == true && !(binary.equals("0") == true)){
         	result = "Denormalized";
 		return true;
 	}
 
-	if(sign.equals("0") && exponent.equals("11111111111") && binary.equals("0000000000000000000000000000000000000000000000000000")){
+	if(sign.equals("0") == true && exponent.equals("11111111111") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
 		result = "+infinity";
 		return true;
 	}
 
-	if(sign.equals("1") && exponent.equals("11111111111") && binary.equals("0000000000000000000000000000000000000000000000000000") ){
+	if(sign.equals("1") == true && exponent.equals("11111111111") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true ){
 		result = "-infinity";
 		return true;
 	}
 
-	if((sign.equals("0") || sign.equals("1")) && exponent.equals("11111111111") && binary.charAt(0) = 0){
+	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) = "0"){
       		result = "sNaN";
 		return true;
 	}
 
-	if((sign.equals("0") || sign.equals("1")) && exponent.equals("11111111111") && binary.charAt(0) = 1){
+	if((sign.equals("0") == true || sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) = "1"){
        		result = "qNan";
 		return true;
 	}
