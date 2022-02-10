@@ -119,18 +119,6 @@ public class MainGUI extends JFrame{
 
     }
 
-    //REMOVE
-    public JTextField getsign_textField()
-    {
-        return sign_textField;
-    }
-
-    //REMOVE
-    public void setsign_textField(JTextField sign_textField)
-    {
-        this.sign_textField = sign_textField;
-    }
-
     //SET FOR BINARY INPUT
     public void setinputBinary_textField(JTextField inputBinary_textField)
     {
@@ -143,12 +131,6 @@ public class MainGUI extends JFrame{
         this.inputHexadecimal_textField = inputHexadecimal_textField;
     }
 
-    //REMOVE
-    public void setexponent_textField(JTextField exponent_textField)
-    {
-        this.exponent_textField = exponent_textField;
-    }
-
     //GET for both Binary and Hex input
     public JTextField getinputBinary_textField()
     {
@@ -159,19 +141,13 @@ public class MainGUI extends JFrame{
         return inputHexadecimal_textField;
     }
 
-    //REMOVE
-    public JTextField getexponent_textField()
-    {
-        return exponent_textField;
-    }
-
     //REMOVE since we only need 1 output text field
     public JTextField setHexOutput_textField()
     {
         return HexOutput_textField;
     }
 
-    public JTextField setBinaryOutput_textField() //setDecimalOutput_textfield() change later in maincontroller
+    public JTextField getDecimalOutput_textField() //setDecimalOutput_textfield() change later in maincontroller ... changed this to get DecimalOutput_textField
     {
         return DecimalOutput_textField;
     }
