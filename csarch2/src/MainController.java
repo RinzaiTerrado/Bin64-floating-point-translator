@@ -14,7 +14,8 @@ public class MainController implements ActionListener
     // inputs
     private static String sign; //first text box
     private static String exponent; //second text box
-    private static String binary; //third text box
+    private static String binary; //third text box\
+    private static String result;
 
     private String hexadecimal;
 
