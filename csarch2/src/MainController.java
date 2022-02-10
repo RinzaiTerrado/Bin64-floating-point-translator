@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
@@ -20,18 +21,18 @@ public class MainController implements ActionListener
         GUI.getConvertButton().addActionListener(this);
         GUI.getClearButton().addActionListener(this);
     }    public static String normalize(){
-        int ep = Integer.parseInt(exponent,2);
-        int e = ep-1023;
-        String signsym = "+";
-        if (sign.equals("0")){
-            signsym = "+";
-        }
-        if (sign.equals("1")){
-            signsym = "-";
-        }
-        String binTrim = removezeros(binary);
-        return signsym+"1."+binTrim+"x2^"+e;
+    int ep = Integer.parseInt(exponent,2);
+    int e = ep-1023;
+    String signsym = "+";
+    if (sign.equals("0")){
+        signsym = "+";
     }
+    if (sign.equals("1")){
+        signsym = "-";
+    }
+    String binTrim = removezeros(binary);
+    return signsym+"1."+binTrim+"x2^"+e;
+}
     //remove zeros of binary
     private static String removezeros(String binary){
         boolean rzeros = false;
@@ -93,6 +94,20 @@ public class MainController implements ActionListener
         return bin;
     }
 
+    private static String convertFloatToFixed(String flop){
+        String[] arr = new String[]{"",""};
+        arr = flop.split("x");
+        BigDecimal bd1 = new BigDecimal(arr[0]);
+        String expFix = arr[1].substring(3,arr[1].length());
+
+        int expint =Integer.parseInt(expFix);
+
+        double expdoub = Math.pow(10, expint);
+        BigDecimal bd2 = new BigDecimal(expdoub);
+        BigDecimal fixed = bd1.multiply(bd2);
+        String fixedStr = fixed.toString();
+        return fixedStr;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == GUI.getConvertButton())
