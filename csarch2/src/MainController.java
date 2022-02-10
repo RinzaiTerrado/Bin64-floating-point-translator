@@ -193,6 +193,8 @@ public class MainController implements ActionListener
        		result = "qNan";
 		return true;
 	}
+	
+	return false;
     }
 
 
