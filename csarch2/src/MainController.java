@@ -184,12 +184,12 @@ public class MainController implements ActionListener
 		return true;
 	}
 
-	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) = '0'){
+	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) == '0'){
       		result = "sNaN";
 		return true;
 	}
 
-	if((sign.equals("0") == true || sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) = '1'){
+	if((sign.equals("0") == true || sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) == '1'){
        		result = "qNan";
 		return true;
 	}
