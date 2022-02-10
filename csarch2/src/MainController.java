@@ -37,10 +37,11 @@ public class MainController implements ActionListener
         boolean rzeros = false;
         int i = binary.length();
         int ctr = 0;
-        while (!rzeros){
-            if(binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")){
+        while (!rzeros) {
+            if(binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")) {
                 ctr++;
-            } else {
+            }
+            else {
                 rzeros = true;
             }
         }
@@ -52,8 +53,7 @@ public class MainController implements ActionListener
 
         hex = hex.toUpperCase();
 
-        HashMap<Character, String> hashMap
-                = new HashMap<Character, String>();
+        HashMap<Character, String> hashMap = new HashMap<Character, String>();
 
         hashMap.put('0', "0000");
         hashMap.put('1', "0001");
@@ -72,19 +72,16 @@ public class MainController implements ActionListener
         hashMap.put('E', "1110");
         hashMap.put('F', "1111");
 
-        int i;
-        char ch;
-        for (i = 0; i < hex.length(); i++) {
-            ch = hex.charAt(i);
-
-            if (hashMap.containsKey(ch)) {
-                bin += hashMap.get(ch);
+        for (int i = 0; i < 16; i++) {
+            if (hashMap.containsKey(hex.charAt(i))) {
+                bin += hashMap.get(hex.charAt(i));
             }
             else {
                 bin = "Invalid Hexadecimal String";
                 return bin;
             }
         }
+
         sign = bin.substring(0,1);
         exponent = bin.substring(1,12);
         binary = bin.substring(12,bin.length());
@@ -157,52 +154,125 @@ public class MainController implements ActionListener
             return "+" + Float.toString(getFinalFloat(decimal, exp));
         }
     }
-    
+
+    private static boolean checkBinary(String sign, String exponent, String binary)
+    {
+        boolean check = true;
+
+        if (sign.length() != 1 || exponent.length() != 11 || binary.length() != 52)
+        {
+            check = false;
+        }
+        else
+        {
+            if (!(Objects.equals(sign, "0") || Objects.equals(sign, "1")))
+            {
+                check = false;
+            }
+
+            for (int i = 0; i < 11; i++)
+            {
+                if (!(Objects.equals(exponent.charAt(i), '0') || Objects.equals(exponent.charAt(i), '1')))
+                {
+                    check = false;
+                }
+            }
+
+            for (int i = 0; i < 52; i++)
+            {
+                if (!(Objects.equals(binary.charAt(i), '0') || Objects.equals(binary.charAt(i), '1')))
+                {
+                    check = false;
+                }
+            }
+        }
+
+        return check;
+    }
+
+    private static boolean checkHexadecimal(String hexadecimal)
+    {
+        boolean check = true;
+
+        if (hexadecimal.length() != 16)
+        {
+            check = false;
+        }
+        else
+        {
+            String hex = hexadecimal.toUpperCase();
+
+            HashMap<Character, String> hashMap = new HashMap<Character, String>();
+
+            hashMap.put('0', "01");
+            hashMap.put('1', "02");
+            hashMap.put('2', "03");
+            hashMap.put('3', "04");
+            hashMap.put('4', "05");
+            hashMap.put('5', "06");
+            hashMap.put('6', "07");
+            hashMap.put('7', "08");
+            hashMap.put('8', "09");
+            hashMap.put('9', "10");
+            hashMap.put('A', "11");
+            hashMap.put('B', "12");
+            hashMap.put('C', "13");
+            hashMap.put('D', "14");
+            hashMap.put('E', "15");
+            hashMap.put('F', "16");
+
+            for (int i = 0; i < 16; i++) {
+                if (!(hashMap.containsKey(hex.charAt(i)))) {
+                    check = false;
+                }
+            }
+        }
+
+        return check;
+    }
+
     private static boolean specialCase(){
     	if(sign.equals("0") == true && exponent.equals("00000000000") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
         	result = "+0";
-		return true;
-	}
+            return true;
+        }
 
-	if(sign.equals("1") == true && exponent.equals("00000000000") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
+	    if(sign.equals("1") == true && exponent.equals("00000000000") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
        		result = "-0";
-		return true;
-	}
+            return true;
+        }
 
-	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("00000000000") == true && !(binary.equals("0000000000000000000000000000000000000000000000000000") == true)){
+	    if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("00000000000") == true && !(binary.equals("0000000000000000000000000000000000000000000000000000") == true)){
         	result = "Denormalized";
-		return true;
-	}
+            return true;
+        }
 
-	if(sign.equals("0") == true && exponent.equals("11111111111") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
+	    if(sign.equals("0") == true && exponent.equals("11111111111") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
 		result = "+infinity";
-		return true;
-	}
+            return true;
+        }
 
-	if(sign.equals("1") == true && exponent.equals("11111111111") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true ){
+	    if(sign.equals("1") == true && exponent.equals("11111111111") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true ){
 		result = "-infinity";
-		return true;
-	}
+            return true;
+        }
 
-	if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) == '0'){
+	    if((sign.equals("0") == true|| sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) == '0'){
       		result = "sNaN";
-		return true;
-	}
+            return true;
+        }
 
-	if((sign.equals("0") == true || sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) == '1'){
+	    if((sign.equals("0") == true || sign.equals("1") == true) && exponent.equals("11111111111") == true && binary.charAt(0) == '1'){
        		result = "qNan";
-		return true;
-	}
+            return true;
+        }
 	
-	return false;
+	    return false;
     }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == GUI.getConvertButton())
-        {
+        if(e.getSource() == GUI.getConvertButton()) {
             //Get input
             hexadecimal = GUI.getInputHexadecimal_textField().getText(); //for Hex input
 
@@ -213,8 +283,7 @@ public class MainController implements ActionListener
             System.out.printf("Sign: %s\n", sign);
             System.out.printf("Binary: %s\n", binary);
             System.out.printf("Exponent: %s\n", exponent);
-            
-            
+
             if (hexadecimal.length() == 0)//HEX FIELD NULL
             {
                 if (!(sign.equals("1")) && !(sign.equals("0")))//SIGN FIELD NULL
@@ -223,28 +292,25 @@ public class MainController implements ActionListener
 				    GUI.getsign_textField().setText("");
                 }
                 
-                if (binary.length() == 0)//EXPONENT FIELD NULL
-                {
+                if (binary.length() == 0)//EXPONENT FIELD NULL {
                     JOptionPane.showMessageDialog(null, "Binary representation field is empty. Try again.");
 
                 }
                 
-                if (exponent.length() == 0)//EXPONENT FIELD NULL
-                {
+                if (exponent.length() == 0)//EXPONENT FIELD NULL {
                     JOptionPane.showMessageDialog(null, "Exponent field is empty. Try again.");
 
                 }
-                if(!(sign.equals("1")) && !(sign.equals("0")) && binary.length() == 0 && exponent.length() == 0)
-                JOptionPane.showMessageDialog(null, "Both Binary and Hexadecimal fields are empty. Try again.");
-
+                if(!(sign.equals("1")) && !(sign.equals("0")) && binary.length() == 0 && exponent.length() == 0) {
+                    JOptionPane.showMessageDialog(null, "Both Binary and Hexadecimal fields are empty. Try again.");
+                }
             }
             
             if (hexadecimal.length() != 0) //HEX CHECK FOR INVALID INPUT
             {
                 hexadecimal = hexadecimal.toUpperCase();
 
-                HashMap<Character, String> hashMap
-                        = new HashMap<Character, String>();
+                HashMap<Character, String> hashMap = new HashMap<Character, String>();
 
                 hashMap.put('0', "0000");
                 hashMap.put('1', "0001");
@@ -266,13 +332,14 @@ public class MainController implements ActionListener
                 int i;
                 char ch;
                 for (i = 0; i < hexadecimal.length(); i++) {
-                        ch = hexadecimal.charAt(i);
+                    ch = hexadecimal.charAt(i);
 
-                        if (hashMap.containsKey(ch)) {
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Invalid Hexadecimal input. Try again.");
-                         }
+                    if (hashMap.containsKey(ch)) {
+
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Invalid Hexadecimal input. Try again.");
+                    }
                 }
             }   
 	    
@@ -287,21 +354,16 @@ public class MainController implements ActionListener
             int ctr = 0;
             double float_binary = Double.parseDouble(binary);
             System.out.printf("float_binary: %f\n", float_binary);
-            if(float_binary != 0)
-            {
-                if(float_binary < 1.0)
-                {
-                    while(float_binary < 1.0)
-                    {
+            if(float_binary != 0) {
+                if(float_binary < 1.0) {
+                    while(float_binary < 1.0) {
                         float_binary *= 10.0;
                         ctr--;
                     }
                 }
 
-                if(float_binary > 2.0)
-                {
-                    while(float_binary > 2.0)
-                    {
+                if(float_binary > 2.0) {
+                    while(float_binary > 2.0) {
                         float_binary /= 10.0;
                         ctr++;
                     }
@@ -316,9 +378,8 @@ public class MainController implements ActionListener
             // In our case, we should extract the first character then store it sa signbit variable. Then I guess we just swap
             // The + with 0 and - with 1 in this part below
             //get the sign bit
-            String signbit="";
-            if(sign.equals("+"))
-            {
+            String signbit = "";
+            if(sign.equals("+")) {
                 signbit = "0";
             }
             else
@@ -341,29 +402,24 @@ public class MainController implements ActionListener
 
             //Special Case 4
             //negative infinity
-            if(int_exponent > 127 && signbit.equals("1"))
-            {
+            if(int_exponent > 127 && signbit.equals("1")) {
                 e_prime = 255;
                 JOptionPane.showMessageDialog(null, "Special Case: Negative Infinity");
             }
 
             //Special Case 5
             //positive infinity
-            if(int_exponent > 127 && signbit.equals("0"))
-            {
+            if(int_exponent > 127 && signbit.equals("0")) {
                 e_prime = 255;
                 JOptionPane.showMessageDialog(null, "Special Case: Positive Infinity");
             }
 
             String e_binary = Integer.toBinaryString(e_prime);
-            if(binary.equals("0.000000000000000"))
-            {
+            if(binary.equals("0.000000000000000")) {
                 e_binary = "00000000";
             }
-            else
-            {
-                while(e_binary.length() < 8)
-                {
+            else {
+                while(e_binary.length() < 8) {
                     e_binary = "0" + e_binary;
                 }
             }
@@ -376,35 +432,28 @@ public class MainController implements ActionListener
             boolean normalizable = true;
             //check coefficient if 1
             digit = binary.charAt(0);
-            if(digit != '1')
-            {
+            if(digit != '1') {
                 normalizable = false;
             }
 
             //check if decimal digits are 0 or 1
-            for(int l=2;l<binaryLength;l++)
-            {
+            for(int l=2;l<binaryLength;l++) {
                 digit = binary.charAt(l);
-                if(digit != '0' && digit != '1')
-                {
+                if(digit != '0' && digit != '1') {
                     normalizable = false;
                 }
             }
-            if(binary.equals("0.000000000000000"))
-            {
+            if(binary.equals("0.000000000000000")) {
                 normalizable = true;
             }
-            if(normalizable == false)
-            {
+            if(normalizable == false) {
                 JOptionPane.showMessageDialog(null, "Could not normalize");
             }
 
             //Special Case 3
-            if(int_exponent < -126)
-            {
+            if(int_exponent < -126) {
                 JOptionPane.showMessageDialog(null, "Special Case: Denormalized");
-                while(int_exponent < -126)
-                {
+                while(int_exponent < -126) {
                     float_binary /= 10.0;
                     int_exponent++;
                 }
@@ -420,8 +469,7 @@ public class MainController implements ActionListener
             char temp;
             String strtemp;
             k = 2;
-            while(k < j)
-            {
+            while(k < j) {
                 temp = binary.charAt(k);
                 strtemp = Character.toString(temp);
                 bit23 = bit23 + strtemp;
@@ -429,14 +477,15 @@ public class MainController implements ActionListener
             }
 
             int l = bit23.length();
-            if(int_exponent > 127)
+            if(int_exponent > 127) {
                 bit23 = "00000000000000000000000";
-            else
-                while(l < 23 )
-                {
+            }
+            else {
+                while (l < 23) {
                     bit23 = bit23 + "0";
                     l++;
                 }
+            }
             System.out.printf("bit23: %s\n", bit23);
 
             String binaryOutput = "";
@@ -451,65 +500,57 @@ public class MainController implements ActionListener
             String str4bit_6 = "";
             String str4bit_7 = "";
             String str4bit_8 = "";
-            k=0;
+            k = 0;
 
             //separate into 4 bits
-            while(k < 4)
-            {
+            while(k < 4) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_1 = str4bit_1 + strtemp;
                 k++;
             }
-            while(k < 8)
-            {
+            while(k < 8) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_2= str4bit_2 + strtemp;
                 k++;
             }
-            while(k < 12)
-            {
+            while(k < 12) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_3= str4bit_3 + strtemp;
                 k++;
             }
 
-            while(k < 16)
-            {
+            while(k < 16) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_4= str4bit_4 + strtemp;
                 k++;
             }
 
-            while(k < 20)
-            {
+            while(k < 20) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_5= str4bit_5 + strtemp;
                 k++;
             }
 
-            while(k < 24)
-            {
+            while(k < 24) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_6= str4bit_6 + strtemp;
                 k++;
             }
 
-            while(k < 28)
-            {
+            while(k < 28) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_7= str4bit_7 + strtemp;
                 k++;
             }
 
-            while(k < 32)
-            {
+            while(k < 32) {
                 temp = binaryOutput.charAt(k);
                 strtemp = Character.toString(temp);
                 str4bit_8= str4bit_8 + strtemp;
@@ -579,6 +620,4 @@ public class MainController implements ActionListener
             GUI.getDecimalOutput_textField().setText("");
         }
     }
-
-
 }
