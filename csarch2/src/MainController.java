@@ -11,17 +11,29 @@ public class MainController implements ActionListener
     private static String sign; //first text box
     private static String exponent; //second text box
     private static String binary; //third text box
-    private static String hexadecimal;
+
+    private String hexadecimal;
 
     public MainController()
     {
         GUI = new MainGUI();
         GUI.getConvertButton().addActionListener(this);
         GUI.getClearButton().addActionListener(this);
+    }    public static String normalize(){
+        int ep = Integer.parseInt(exponent,2);
+        int e = ep-1023;
+        String signsym = "+";
+        if (sign.equals("0")){
+            signsym = "+";
+        }
+        if (sign.equals("1")){
+            signsym = "-";
+        }
+        String binTrim = removezeros(binary);
+        return signsym+"1."+binTrim+"x2^"+e;
     }
-
     //remove zeros of binary
-    private String removezeros(String binary){
+    private static String removezeros(String binary){
         boolean rzeros = false;
         int i = binary.length();
         int ctr = 0;
@@ -80,6 +92,7 @@ public class MainController implements ActionListener
         binary = bin.substring(12,bin.length());
         return bin;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == GUI.getConvertButton())
@@ -401,6 +414,8 @@ public class MainController implements ActionListener
             GUI.setHexOutput_textField().setText("");
         }
 
+
     }
+
 
 }
