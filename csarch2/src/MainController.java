@@ -164,23 +164,77 @@ public class MainController implements ActionListener
             //Get input
             hexadecimal = GUI.getInputHexadecimal_textField().getText(); //for Hex input
 
-            //sign = GUI.getsign_textField().getText(); <------remove '//' later once were ready to test gui
-            //exponent = GUI.getexponent_representation_textField().getText(); <------remove '//' later once were ready to test gui
-            //NOTE: this code above ^ gets the exponent representation and not the exponent.
+            sign = GUI.getsign_textField().getText(); 
+            exponent = GUI.getexponent_representation_textField().getText();
             binary = GUI.getinputBinary_textField().getText(); 
             
             System.out.printf("Sign: %s\n", sign);
             System.out.printf("Binary: %s\n", binary);
             System.out.printf("Exponent: %s\n", exponent);
-
-            //KEEP
-            //Maybe change the condition to binary.length()==0 && hexadecimal.length() == 0
-            //Since ours can have either of the inputs
-            if (binary.length() == 0 && hexadecimal.length() == 0)
+            
+            
+            if (hexadecimal.length() == 0)//HEX FIELD NULL
             {
-                JOptionPane.showMessageDialog(null, "Binary and Hexadecimal fields are empty. Try again.");
+                if (!(sign.equals("1")) && !(sign.equals("0")))//SIGN FIELD NULL
+                {
+                    JOptionPane.showMessageDialog(null, "Invalid sign input! 1 or 0 only.");
+				    GUI.getsign_textField().setText("");
+                }
+                
+                if (binary.length() == 0)//EXPONENT FIELD NULL
+                {
+                    JOptionPane.showMessageDialog(null, "Binary representation field is empty. Try again.");
+
+                }
+                
+                if (exponent.length() == 0)//EXPONENT FIELD NULL
+                {
+                    JOptionPane.showMessageDialog(null, "Exponent field is empty. Try again.");
+
+                }
+                if(!(sign.equals("1")) && !(sign.equals("0")) && binary.length() == 0 && exponent.length() == 0)
+                JOptionPane.showMessageDialog(null, "Both Binary and Hexadecimal fields are empty. Try again.");
 
             }
+            
+            if (hexadecimal.length() != 0) //HEX CHECK FOR INVALID INPUT
+            {
+                hexadecimal = hexadecimal.toUpperCase();
+
+                HashMap<Character, String> hashMap
+                        = new HashMap<Character, String>();
+
+                hashMap.put('0', "0000");
+                hashMap.put('1', "0001");
+                hashMap.put('2', "0010");
+                hashMap.put('3', "0011");
+                hashMap.put('4', "0100");
+                hashMap.put('5', "0101");
+                hashMap.put('6', "0110");
+                hashMap.put('7', "0111");
+                hashMap.put('8', "1000");
+                hashMap.put('9', "1001");
+                hashMap.put('A', "1010");
+                hashMap.put('B', "1011");
+                hashMap.put('C', "1100");
+                hashMap.put('D', "1101");
+                hashMap.put('E', "1110");
+                hashMap.put('F', "1111");
+
+                int i;
+                char ch;
+                for (i = 0; i < hexadecimal.length(); i++) {
+                        ch = hexadecimal.charAt(i);
+
+                        if (hashMap.containsKey(ch)) {
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Hexadecimal input. Try again.");
+                         }
+                }
+            }   
+            
+            
 
             // BEFORE the normalize code below, put a function for converting hexadecimal to binary(?)
             // https://www.geeksforgeeks.org/java-program-to-convert-hexadecimal-to-binary/
