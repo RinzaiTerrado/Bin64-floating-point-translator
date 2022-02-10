@@ -3,6 +3,9 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import java.awt.datatransfer.StringSelection;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 
 public class MainController implements ActionListener
 {
@@ -20,18 +23,14 @@ public class MainController implements ActionListener
         GUI = new MainGUI();
         GUI.getConvertButton().addActionListener(this);
         GUI.getClearButton().addActionListener(this);
-    }    public static String normalize(){
+        GUI.getPasteButton().addActionListener(this);
+    }
+    
+    public static String normalize(){
     int ep = Integer.parseInt(exponent,2);
     int e = ep-1023;
-    String signsym = "+";
-    if (sign.equals("0")){
-        signsym = "+";
-    }
-    if (sign.equals("1")){
-        signsym = "-";
-    }
     String binTrim = removezeros(binary);
-    return signsym+"1."+binTrim+"x2^"+e;
+    return "+"+"1."+binTrim+"x2^"+e;
 }
     //remove zeros of binary
     private static String removezeros(String binary){
@@ -113,19 +112,12 @@ public class MainController implements ActionListener
         if(e.getSource() == GUI.getConvertButton())
         {
             //Get input
-            sign = GUI.getsign_textField().getText(); //REMOVE since sign isnt part of our input
             binary = GUI.getinputBinary_textField().getText(); // KEEP, add another like this but "Hexadecimal"
-            exponent = GUI.getexponent_textField().getText(); // REMOVE since the exponent isnt part of our input
+
+            hexadecimal = GUI.getInputHexadecimal_textField().getText(); // added hexadecimal line
             System.out.printf("Sign: %s\n", sign);
             System.out.printf("Binary: %s\n", binary);
             System.out.printf("Exponent: %s\n", exponent);
-
-            //checking if sign is not + or -
-            if (!(sign.equals("0")) && !(sign.equals("1")))
-            {
-                JOptionPane.showMessageDialog(null, "Invalid sign input! 1 or 0 only.");
-                GUI.getsign_textField().setText("");
-            }
 
             //KEEP
             //Maybe change the condition to binary.length()==0 && hexadecimal.length() == 0
@@ -414,22 +406,26 @@ public class MainController implements ActionListener
             String finalHex = hex1 + hex2 + hex3+ hex4 + hex5 + hex6 + hex7 + hex8;
             finalHex = finalHex.toUpperCase();
             System.out.printf("hex: %s\n", finalHex);
-            GUI.setBinaryOutput_textField().setText(finalBinary);
+            //GUI.getDecimalOutput_textField().setText(finalBinary); // this might not be working as intended anymore
             GUI.setHexOutput_textField().setText(finalHex);
 
         }
 
-        else
+        if(e.getSource() == GUI.getPasteButton())
         {
-            //clear all text fields
-            GUI.getsign_textField().setText("");
-            GUI.getinputBinary_textField().setText("");
-            GUI.getexponent_textField().setText("");
-            GUI.setBinaryOutput_textField().setText("");
-            GUI.setHexOutput_textField().setText("");
+            String output = GUI.getDecimalOutput_textField().getText(); 
+            StringSelection stringSelection = new StringSelection(output);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
         }
 
-
+        if(e.getSource() == GUI.getClearButton())
+        {
+            //clear all text fields
+            GUI.getInputHexadecimal_textField().setText("");
+            GUI.getinputBinary_textField().setText("");
+            GUI.getDecimalOutput_textField().setText("");
+        }
     }
 
 
