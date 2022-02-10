@@ -18,14 +18,13 @@ public class MainController implements ActionListener
 
     private String hexadecimal;
 
-    public MainController()
-    {
+    public MainController() {
         GUI = new MainGUI();
         GUI.getConvertButton().addActionListener(this);
         GUI.getClearButton().addActionListener(this);
         GUI.getPasteButton().addActionListener(this);
     }
-    
+
     public static String normalize(){
     int ep = Integer.parseInt(exponent,2);
     int e = ep-1023;
@@ -33,11 +32,11 @@ public class MainController implements ActionListener
     return "+"+"1."+binTrim+"x2^"+e;
 }
     //remove zeros of binary
-    private static String removezeros(String binary){
+    private static String removeZeros(String binary) {
         boolean rzeros = false;
         int i = binary.length();
         int ctr = 0;
-        while(!rzeros){
+        while (!rzeros){
             if(binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")){
                 ctr++;
             } else {
@@ -46,9 +45,8 @@ public class MainController implements ActionListener
         }
         return binary.substring(0,binary.length() - ctr);
     }
-    public static String hexToBinary(String hex)
-    {
 
+    public static String hexToBinary(String hex) {
         String bin = "";
 
         hex = hex.toUpperCase();
@@ -78,10 +76,9 @@ public class MainController implements ActionListener
         for (i = 0; i < hex.length(); i++) {
             ch = hex.charAt(i);
 
-            if (hashMap.containsKey(ch))
-
+            if (hashMap.containsKey(ch)) {
                 bin += hashMap.get(ch);
-
+            }
             else {
                 bin = "Invalid Hexadecimal String";
                 return bin;
@@ -93,7 +90,7 @@ public class MainController implements ActionListener
         return bin;
     }
 
-    private static String convertFloatToFixed(String flop){
+    private static String convertFloatToFixed(String flop) {
         String[] arr = new String[]{"",""};
         arr = flop.split("x");
         BigDecimal bd1 = new BigDecimal(arr[0]);
@@ -107,6 +104,59 @@ public class MainController implements ActionListener
         String fixedStr = fixed.toString();
         return fixedStr;
     }
+
+    private static float getFinalFloat(float decimal, int exp){
+        float finaldecimal = 0;
+
+        int multiplier = 1;
+
+        if (exp > 0) {
+            for(int i = 1; i <= exp; i++) {
+                multiplier *= 2;
+            }
+
+            finaldecimal = decimal * multiplier;
+        }
+        else if (exp < 0) {
+            for(int i = -1; i >= exp; i--) {
+                multiplier *= 2;
+            }
+
+            finaldecimal = decimal * multiplier;
+        }
+
+        return finaldecimal;
+    }
+
+    private static String convertNormToFloat(String norm){
+        String[] arr = norm.split("x");
+
+        String sign = arr[0].substring(0, 0);
+        BigDecimal bd = new BigDecimal(arr[0]);
+        BigDecimal bd1 = bd.movePointRight(4);
+        int binary = bd1.intValue();
+        int exp = Integer.parseInt(arr[1].substring(2));
+        int[] fractional = new int[5];
+        float decimal = 0;
+
+        for (int i = 0; i < 5; i++) {
+            fractional[4 - i] = binary % 10;
+            binary /= 10;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            double divisor = Math.pow(2, i);
+            decimal += fractional[i]/divisor;
+        }
+
+        if (Objects.equals(sign, "-")) {
+            return Float.toString(getFinalFloat(decimal, exp));
+        }
+        else {
+            return "+" + Float.toString(getFinalFloat(decimal, exp));
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == GUI.getConvertButton())
@@ -413,7 +463,7 @@ public class MainController implements ActionListener
 
         if(e.getSource() == GUI.getPasteButton())
         {
-            String output = GUI.getDecimalOutput_textField().getText(); 
+            String output = GUI.getDecimalOutput_textField().getText();
             StringSelection stringSelection = new StringSelection(output);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
