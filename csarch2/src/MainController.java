@@ -157,6 +157,45 @@ public class MainController implements ActionListener
             return "+" + Float.toString(getFinalFloat(decimal, exp));
         }
     }
+    
+    private static boolean specialCase(String result){
+    	if(sign.equals("0") && exponent.equals("00000000000") && binary.equals("0000000000000000000000000000000000000000000000000000")){
+        	result = "+0";
+		return true;
+	}
+
+	if(sign.equals("1") && exponent.equals("00000000000") && binary.equals("0000000000000000000000000000000000000000000000000000")){
+       		result = "-0";
+		return true;
+	}
+
+	if((sign.equals("0") || sign.equals("1")) && exponent.equals("00000000000") && !(binary.equals("0"))){
+        	result = "Denormalized";
+		return true;
+	}
+
+	if(sign.equals("0") && exponent.equals("11111111111") && binary.equals("0000000000000000000000000000000000000000000000000000")){
+		result = "+infinity";
+		return true;
+	}
+
+	if(sign.equals("1") && exponent.equals("11111111111") && binary.equals("0000000000000000000000000000000000000000000000000000") ){
+		result = "-infinity";
+		return true;
+	}
+
+	if((sign.equals("0") || sign.equals("1")) && exponent.equals("11111111111") && binary.charAt(0) = 0){
+      		result = "sNaN";
+		return true;
+	}
+
+	if((sign.equals("0") || sign.equals("1")) && exponent.equals("11111111111") && binary.charAt(0) = 1){
+       		result = "qNan";
+		return true;
+	}
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -234,6 +273,8 @@ public class MainController implements ActionListener
                          }
                 }
             }   
+	    
+	    
             
             
 
