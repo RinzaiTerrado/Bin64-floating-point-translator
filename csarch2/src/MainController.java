@@ -1,6 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 public class MainController implements ActionListener
@@ -8,11 +8,10 @@ public class MainController implements ActionListener
     private MainGUI GUI;
     //private String hexadecimal;
     // inputs
-    private String sign; //first text box
-    private String exponent; //second text box
-    private String binary; //third text box
-
-    private String hexadecimal;
+    private static String sign; //first text box
+    private static String exponent; //second text box
+    private static String binary; //third text box
+    private static String hexadecimal;
 
     public MainController()
     {
@@ -21,6 +20,66 @@ public class MainController implements ActionListener
         GUI.getClearButton().addActionListener(this);
     }
 
+    //remove zeros of binary
+    private String removezeros(String binary){
+        boolean rzeros = false;
+        int i = binary.length();
+        int ctr = 0;
+        while(!rzeros){
+            if(binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")){
+                ctr++;
+            } else {
+                rzeros = true;
+            }
+        }
+        return binary.substring(0,binary.length() - ctr);
+    }
+    public static String hexToBinary(String hex)
+    {
+
+        String bin = "";
+
+        hex = hex.toUpperCase();
+
+        HashMap<Character, String> hashMap
+                = new HashMap<Character, String>();
+
+        hashMap.put('0', "0000");
+        hashMap.put('1', "0001");
+        hashMap.put('2', "0010");
+        hashMap.put('3', "0011");
+        hashMap.put('4', "0100");
+        hashMap.put('5', "0101");
+        hashMap.put('6', "0110");
+        hashMap.put('7', "0111");
+        hashMap.put('8', "1000");
+        hashMap.put('9', "1001");
+        hashMap.put('A', "1010");
+        hashMap.put('B', "1011");
+        hashMap.put('C', "1100");
+        hashMap.put('D', "1101");
+        hashMap.put('E', "1110");
+        hashMap.put('F', "1111");
+
+        int i;
+        char ch;
+        for (i = 0; i < hex.length(); i++) {
+            ch = hex.charAt(i);
+
+            if (hashMap.containsKey(ch))
+
+                bin += hashMap.get(ch);
+
+            else {
+                bin = "Invalid Hexadecimal String";
+                return bin;
+            }
+        }
+        sign = bin.substring(0,1);
+        exponent = bin.substring(1,12);
+        binary = bin.substring(12,bin.length());
+        return bin;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == GUI.getConvertButton())
