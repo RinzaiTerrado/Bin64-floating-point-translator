@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.math.BigDecimal;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 public class MainController implements ActionListener
@@ -8,19 +9,105 @@ public class MainController implements ActionListener
     private MainGUI GUI;
     //private String hexadecimal;
     // inputs
-    private String sign; //first text box
-    private String exponent_r; //second text box
-    private String binary; //third text box
+    private static String sign; //first text box
+    private static String exponent; //second text box
+    private static String binary; //third text box
 
-    private String hexadecimal = "";
+    private String hexadecimal;
 
     public MainController()
     {
         GUI = new MainGUI();
         GUI.getConvertButton().addActionListener(this);
         GUI.getClearButton().addActionListener(this);
+    }    public static String normalize(){
+    int ep = Integer.parseInt(exponent,2);
+    int e = ep-1023;
+    String signsym = "+";
+    if (sign.equals("0")){
+        signsym = "+";
+    }
+    if (sign.equals("1")){
+        signsym = "-";
+    }
+    String binTrim = removezeros(binary);
+    return signsym+"1."+binTrim+"x2^"+e;
+}
+    //remove zeros of binary
+    private static String removezeros(String binary){
+        boolean rzeros = false;
+        int i = binary.length();
+        int ctr = 0;
+        while(!rzeros){
+            if(binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")){
+                ctr++;
+            } else {
+                rzeros = true;
+            }
+        }
+        return binary.substring(0,binary.length() - ctr);
+    }
+    public static String hexToBinary(String hex)
+    {
+
+        String bin = "";
+
+        hex = hex.toUpperCase();
+
+        HashMap<Character, String> hashMap
+                = new HashMap<Character, String>();
+
+        hashMap.put('0', "0000");
+        hashMap.put('1', "0001");
+        hashMap.put('2', "0010");
+        hashMap.put('3', "0011");
+        hashMap.put('4', "0100");
+        hashMap.put('5', "0101");
+        hashMap.put('6', "0110");
+        hashMap.put('7', "0111");
+        hashMap.put('8', "1000");
+        hashMap.put('9', "1001");
+        hashMap.put('A', "1010");
+        hashMap.put('B', "1011");
+        hashMap.put('C', "1100");
+        hashMap.put('D', "1101");
+        hashMap.put('E', "1110");
+        hashMap.put('F', "1111");
+
+        int i;
+        char ch;
+        for (i = 0; i < hex.length(); i++) {
+            ch = hex.charAt(i);
+
+            if (hashMap.containsKey(ch))
+
+                bin += hashMap.get(ch);
+
+            else {
+                bin = "Invalid Hexadecimal String";
+                return bin;
+            }
+        }
+        sign = bin.substring(0,1);
+        exponent = bin.substring(1,12);
+        binary = bin.substring(12,bin.length());
+        return bin;
     }
 
+    private static String convertFloatToFixed(String flop){
+        String[] arr = new String[]{"",""};
+        arr = flop.split("x");
+        BigDecimal bd1 = new BigDecimal(arr[0]);
+        String expFix = arr[1].substring(3,arr[1].length());
+
+        int expint =Integer.parseInt(expFix);
+
+        double expdoub = Math.pow(10, expint);
+        BigDecimal bd2 = new BigDecimal(expdoub);
+        BigDecimal fixed = bd1.multiply(bd2);
+        String fixedStr = fixed.toString();
+        return fixedStr;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == GUI.getConvertButton())
@@ -28,8 +115,7 @@ public class MainController implements ActionListener
             //Get input
             sign = GUI.getsign_textField().getText(); //REMOVE since sign isnt part of our input
             binary = GUI.getinputBinary_textField().getText(); // KEEP, add another like this but "Hexadecimal"
-            hexadecimal = GUI.getInputHexadecimal_textField().getText(); // KEEP, add another like this but "Hexadecimal"
-            exponent_r = GUI.getexponent_textField().getText(); // REMOVE since the exponent isnt part of our input
+            exponent = GUI.getexponent_textField().getText(); // REMOVE since the exponent isnt part of our input
             System.out.printf("Sign: %s\n", sign);
             System.out.printf("Binary: %s\n", binary);
             System.out.printf("Exponent: %s\n", exponent);
@@ -52,62 +138,6 @@ public class MainController implements ActionListener
 
             // BEFORE the normalize code below, put a function for converting hexadecimal to binary(?)
             // https://www.geeksforgeeks.org/java-program-to-convert-hexadecimal-to-binary/
-            // variable to store the converted
-            // Binary Sequence
-
-            // converting the accepted Hexadecimal
-            // string to upper case
-            if(hexadecimal != "") {
-                hexadecimal = hexadecimal.toUpperCase();
-
-                // initializing the HashMap class
-                HashMap<Character, String> hashMap
-                        = new HashMap<Character, String>();
-
-                // storing the key value pairs
-                hashMap.put('0', "0000");
-                hashMap.put('1', "0001");
-                hashMap.put('2', "0010");
-                hashMap.put('3', "0011");
-                hashMap.put('4', "0100");
-                hashMap.put('5', "0101");
-                hashMap.put('6', "0110");
-                hashMap.put('7', "0111");
-                hashMap.put('8', "1000");
-                hashMap.put('9', "1001");
-                hashMap.put('A', "1010");
-                hashMap.put('B', "1011");
-                hashMap.put('C', "1100");
-                hashMap.put('D', "1101");
-                hashMap.put('E', "1110");
-                hashMap.put('F', "1111");
-
-                int i;
-                char ch;
-
-                // loop to iterate through the length
-                // of the Hexadecimal String
-                for (i = 0; i < hexadecimal.length(); i++) {
-                    // extracting each character
-                    ch = hexadecimal.charAt(i);
-
-                    // checking if the character is
-                    // present in the keys
-                    if (hashMap.containsKey(ch))
-
-                        // adding to the Binary Sequence
-                        // the corresponding value of
-                        // the key
-                        binary += hashMap.get(ch);
-
-                        // returning Invalid Hexadecimal
-                        // String if the character is
-                        // not present in the keys
-                    else {
-                        binary = "Invalid Hexadecimal String";
-                    }
-                }
-            }
 
             //normalize if not within range 1.0 to 2.0, if input is 0 then immediately convert (if input is binary)
             int ctr = 0;
@@ -142,8 +172,8 @@ public class MainController implements ActionListener
             // In our case, we should extract the first character then store it sa signbit variable. Then I guess we just swap
             // The + with 0 and - with 1 in this part below
             //get the sign bit
-            String signbit = "";
-            if(sign.equals("0"))
+            String signbit="";
+            if(sign.equals("+"))
             {
                 signbit = "0";
             }
@@ -159,7 +189,7 @@ public class MainController implements ActionListener
             //		e_prime = binary.charAt(i)
             //
             // e = Integer.parseInt(e_prime,2)) - 1023 (Ex. 5 = 1028-1023)
-            int int_exponent = Integer.parseInt(exponent_r);
+            int int_exponent = Integer.parseInt(exponent);
             //add ctr to exponent after normalizing
             int_exponent += ctr;
             int e_prime = int_exponent + 127;
@@ -399,6 +429,8 @@ public class MainController implements ActionListener
             GUI.setHexOutput_textField().setText("");
         }
 
+
     }
+
 
 }
