@@ -112,9 +112,13 @@ public class MainController implements ActionListener
         if(e.getSource() == GUI.getConvertButton())
         {
             //Get input
-            binary = GUI.getinputBinary_textField().getText(); // KEEP, add another like this but "Hexadecimal"
+            hexadecimal = GUI.getInputHexadecimal_textField().getText(); //for Hex input
 
-            hexadecimal = GUI.getInputHexadecimal_textField().getText(); // added hexadecimal line
+            //sign = GUI.getsign_textField().getText(); <------remove '//' later once were ready to test gui
+            //exponent = GUI.getexponent_representation_textField().getText(); <------remove '//' later once were ready to test gui
+            //NOTE: this code above ^ gets the exponent representation and not the exponent.
+            binary = GUI.getinputBinary_textField().getText(); 
+            
             System.out.printf("Sign: %s\n", sign);
             System.out.printf("Binary: %s\n", binary);
             System.out.printf("Exponent: %s\n", exponent);
