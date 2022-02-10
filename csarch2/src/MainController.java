@@ -158,7 +158,7 @@ public class MainController implements ActionListener
         }
     }
     
-    private static boolean specialCase(String result){
+    private static boolean specialCase(){
     	if(sign.equals("0") == true && exponent.equals("00000000000") == true && binary.equals("0000000000000000000000000000000000000000000000000000") == true){
         	result = "+0";
 		return true;
