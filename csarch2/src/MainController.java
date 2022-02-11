@@ -17,6 +17,8 @@ public class MainController implements ActionListener
 	private static String exponent; //second text box
 	private static String binary; //third text box\
 	private static String result;
+	private static int binary_length;
+	private static boolean canProceed = true;
 
 	private String hexadecimal;
 
@@ -33,12 +35,14 @@ public class MainController implements ActionListener
 		int e = ep - 1023;
 		char finalsign = '+';
 		String binTrim = removeZeros(binary);
+		binary_length = binTrim.length();
 
-		if(sign.equals("0"))
+		if (sign.equals("0")) {
 			finalsign = '+';
-		if(sign.equals("1"))
+		}
+		if (sign.equals("1")) {
 			finalsign = '-';
-
+		}
 
 		return finalsign + "1." + binTrim + "x2^" + e;
 	}
@@ -47,17 +51,20 @@ public class MainController implements ActionListener
 		boolean rzeros = false;
 		int i = binary.length();
 		int ctr = 0;
+
 		while (!rzeros) {
-			if(binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")) {
+			if (binary.substring((binary.length() - ctr - 1),(binary.length() - ctr)).equals("0")) {
 				ctr++;
 			}
 			else {
 				rzeros = true;
 			}
 		}
+
 		if (binary.equals("0000000000000000000000000000000000000000000000000000")) {
 			return "0";
 		}
+
 		return binary.substring(0,binary.length() - ctr);
 	}
 
@@ -103,10 +110,10 @@ public class MainController implements ActionListener
 
 	//UNUSED
 	private static String convertFloatToFixed(String flop) {
-		String[] arr = new String[]{"",""};
+		String[] arr = new String[]{"", ""};
 		arr = flop.split("x");
 		BigDecimal bd1 = new BigDecimal(arr[0]);
-		String expFix = arr[1].substring(3,arr[1].length());
+		String expFix = arr[1].substring(3, arr[1].length());
 
 		int expint =Integer.parseInt(expFix);
 
@@ -125,6 +132,7 @@ public class MainController implements ActionListener
 		if (exp > 0) {
 			for(int i = 1; i <= exp; i++) {
 				multiplier *= 2;
+				System.out.printf("Sign: %d\n", multiplier);
 			}
 
 			finaldecimal = decimal * multiplier;
@@ -143,25 +151,31 @@ public class MainController implements ActionListener
 	private static String getDecimal(String norm) {
 		String[] arr = norm.split("x");
 
-		String sign = arr[0].substring(0, 0);
-		BigDecimal bd = new BigDecimal(arr[0]);
-		BigDecimal bd1 = bd.movePointRight(4);
-		int binary = bd1.intValue();
+		char signc = arr[0].charAt(0);
+		String signs = Character.toString(signc);
+		String temp = arr[0].substring(0, 0);
+		BigDecimal bd = new BigDecimal(arr[0].substring(1, arr[0].length()));
+		bd = bd.movePointRight(arr[0].length() - 3);
+		double binary = 0;
 		int exp = Integer.parseInt(arr[1].substring(2));
-		int[] fractional = new int[5];
+		char[] fractional = new char[String.valueOf(bd).length() + 1];
 		float decimal = 0;
 
-		for (int i = 0; i < 5; i++) {
-			fractional[4 - i] = binary % 10;
-			binary /= 10;
+		for (int i = 0; i < arr[0].length() - 1; i++) {
+			fractional[arr[0].length() - 2 - i] = arr[0].charAt(String.valueOf(bd).length() - i + 1);
 		}
 
-		for (int i = 0; i < 5; i++) {
+		char[] frac = new char[fractional.length - 1];
+
+		System.arraycopy(fractional, 0, frac, 0, 1);
+		System.arraycopy(fractional, 2, frac, 1, fractional.length - 2);
+
+		for (int i = 0; i < frac.length; i++) {
 			double divisor = Math.pow(2, i);
-			decimal += fractional[i]/divisor;
+			decimal += Character.getNumericValue(frac[i]) / divisor;
 		}
 
-		return decimal +" x2^"+exp;
+		return signs + decimal + "x2^" + exp;
 	}
 
 	private static String getFinalDecimal(String norm) {
@@ -169,20 +183,25 @@ public class MainController implements ActionListener
 
 		String sign = arr[0].substring(0, 0);
 		BigDecimal bd = new BigDecimal(arr[0]);
-		BigDecimal bd1 = bd.movePointRight(4);
+		BigDecimal bd1 = bd.movePointRight(binary_length);
 		int binary = bd1.intValue();
 		int exp = Integer.parseInt(arr[1].substring(2));
-		int[] fractional = new int[5];
+		int[] fractional = new int[binary_length + 1];
 		float decimal = 0;
 
-		for (int i = 0; i < 5; i++) {
-			fractional[4 - i] = binary % 10;
+		for (int i = 0; i < binary_length+1; i++) {
+			fractional[(binary_length) - i] = binary % 10;
 			binary /= 10;
 		}
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < binary_length+1; i++) {
 			double divisor = Math.pow(2, i);
 			decimal += fractional[i]/divisor;
+		}
+
+		if(exp == 0)
+		{
+			return decimal + "";
 		}
 
 		if (Objects.equals(sign, "-")) {
@@ -312,48 +331,51 @@ public class MainController implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == GUI.getConvertButton()) {
 			//Get input
+			canProceed = true;
 			hexadecimal = GUI.getInputHexadecimal_textField().getText(); //for Hex input
 			System.out.printf("Hex: %s\n", hexadecimal);
 
 			sign = GUI.getsign_textField().getText();
 			exponent = GUI.getexponent_representation_textField().getText();
 			binary = GUI.getinputBinary_textField().getText();
+			binary_length = binary.length();
 
 			System.out.printf("Sign: %s\n", sign);
 			System.out.printf("Binary: %s\n", binary);
 			System.out.printf("Exponent: %s\n", exponent);
 
-			if(sign.length()!=0 && exponent.length()!=0 && binary.length()!=0){
-				if(checkBinary(sign,exponent,binary) == false)
+			if(sign.length() != 0 && exponent.length() != 0 && binary.length() != 0){
+				if(checkBinary(sign, exponent, binary) == false)
 				{
 					JOptionPane.showMessageDialog(null, "Invalid Binary input. Please try again.");
+					canProceed = false;
 				}
 			}
 
-			if(hexadecimal.length()!=0 && sign.length()!=0 && exponent.length()!=0 && binary.length()!=0){
+
+			if(hexadecimal.length() != 0){
 				if(checkHexadecimal(hexadecimal) == false)
 				{
 					JOptionPane.showMessageDialog(null, "Invalid Hexadecimal input. Please try again.");
+					canProceed = false;
 				}
 			}
 
-			if(sign.length()==0 && exponent.length()==0 && binary.length()==0 && hexadecimal.length()==0){
-
-					JOptionPane.showMessageDialog(null, "NULL input. Please try again.");
+			if(sign.length() == 0 && exponent.length() == 0 && binary.length() == 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL input. Please try again.");
+				canProceed = false;
 			}
 
 
-
-			if(specialCase()==true)
+			if(specialCase() == true)
 			{
 				GUI.setDecimalOutput_textField().setText(result);
 			}
-			else
+			if(specialCase() == false && canProceed == true)
 			{
-				if(hexadecimal.equals("")==false){
+				if(hexadecimal.equals("") == false){
 					hexToBinary(hexadecimal);
 				}
-				removeZeros(binary);
 				result = normalize();
 				result = getDecimal(result);
 				GUI.setDecimalOutput_textField().setText(result);
@@ -364,6 +386,7 @@ public class MainController implements ActionListener
 
 		if (e.getSource() == GUI.getConvertButton2()) {
 			//Get input
+			canProceed = true;
 			hexadecimal = GUI.getInputHexadecimal_textField().getText(); //for Hex input
 			System.out.printf("Hex: %s\n", hexadecimal);
 
@@ -375,36 +398,38 @@ public class MainController implements ActionListener
 			System.out.printf("Binary: %s\n", binary);
 			System.out.printf("Exponent: %s\n", exponent);
 
-			if(sign.length()!=0 && exponent.length()!=0 && binary.length()!=0){
-				if(checkBinary(sign,exponent,binary) == false)
+			if(sign.length() != 0 && exponent.length() != 0 && binary.length() != 0){
+				if(checkBinary(sign, exponent, binary) == false)
 				{
 					JOptionPane.showMessageDialog(null, "Invalid Binary input. Please try again.");
+					canProceed = false;
 				}
 			}
 
 
-			if(hexadecimal.length()!=0){
+			if(hexadecimal.length() != 0){
 				if(checkHexadecimal(hexadecimal) == false)
 				{
 					JOptionPane.showMessageDialog(null, "Invalid Hexadecimal input. Please try again.");
+					canProceed = false;
 				}
 			}
 
-			if(sign.length()==0 && exponent.length()==0 && binary.length()==0 && hexadecimal.length()==0){
-					JOptionPane.showMessageDialog(null, "NULL input. Please try again.");
+			if(sign.length() == 0 && exponent.length() == 0 && binary.length() == 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL input. Please try again.");
+				canProceed = false;
 
 			}
 
-			if(specialCase()==true)
+			if(specialCase() == true)
 			{
 				GUI.setDecimalOutput_textField().setText(result);
 			}
-			else
+			if(specialCase() == false && canProceed == true)
 			{
-				if(hexadecimal.equals("")==false){
+				if(hexadecimal.equals("") == false){
 					hexToBinary(hexadecimal);
 				}
-				removeZeros(binary);
 				result = normalize();
 				result = getFinalDecimal(result);
 				GUI.setDecimalOutput_textField().setText(result);

@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -13,8 +12,6 @@ import java.awt.Color;
 import javax.swing.JTextArea;
 
 public class MainGUI extends JFrame{
-
-
 	private JTextField DecimalOutput_textField;// decimal output
 	private JLabel lblNewLabel; //title ng program
 	private JButton ConvertButton; //fixed
@@ -29,7 +26,6 @@ public class MainGUI extends JFrame{
 	private JLabel lblBinary; //binary label
 	private JLabel lblHexadecimal; //hex label
 
-
 	public MainGUI() {
 		setBounds(100, 100, 878, 663);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +33,6 @@ public class MainGUI extends JFrame{
 		initialize();
 		setVisible(true);
 	}
-
 
 	/**
 	 * Create the application.
@@ -48,7 +43,6 @@ public class MainGUI extends JFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
 		DecimalOutput_textField = new JTextField();
 		DecimalOutput_textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		DecimalOutput_textField.setBounds(317, 446, 227, 32);
@@ -119,86 +113,39 @@ public class MainGUI extends JFrame{
 		inputBinary_textField.setBounds(395, 264, 268, 32);
 		getContentPane().add(inputBinary_textField);
 
-	
+
 		inputHexadecimal_textField = new JTextField();
 		inputHexadecimal_textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		inputHexadecimal_textField.setColumns(10);
 		inputHexadecimal_textField.setBounds(199, 184, 463, 32);
 		getContentPane().add(inputHexadecimal_textField);
-		
-
 	}
 
+	public JTextField getsign_textField() { return sign_textField; }
 
-	public JTextField getsign_textField()
-	{
-		return sign_textField;
-	}
+	public void setsign_textField(JTextField sign_textField) { this.sign_textField = sign_textField; }
 
-	public void setsign_textField(JTextField sign_textField)
-	{
-		this.sign_textField = sign_textField;
-	}
+	public JTextField getexponent_representation_textField() { return exponent_representation_textField; }
 
-	public JTextField getexponent_representation_textField()
-	{
-		return exponent_representation_textField;
-	}
+	public void setexponent_representation_textField(JTextField exponent_representation_textField) { this.exponent_representation_textField = exponent_representation_textField; }
 
-	public void setexponent_representation_textField(JTextField exponent_representation_textField)
-	{
-		this.exponent_representation_textField = exponent_representation_textField;
-	}
+	public void setinputBinary_textField(JTextField inputBinary_textField) { this.inputBinary_textField = inputBinary_textField; }
 
-	
-	public void setinputBinary_textField(JTextField inputBinary_textField)
-	{
-		this.inputBinary_textField = inputBinary_textField;
-	}
+	public void setInputHexadecimal_textField(JTextField inputHexadecimal_textField) { this.inputHexadecimal_textField = inputHexadecimal_textField; }
 
-	
-	public void setInputHexadecimal_textField(JTextField inputHexadecimal_textField)
-	{
-		this.inputHexadecimal_textField = inputHexadecimal_textField;
-	}
+	public JTextField getinputBinary_textField() { return inputBinary_textField; }
 
-	
-	public JTextField getinputBinary_textField()
-	{
-		return inputBinary_textField;
-	}
-	public JTextField getInputHexadecimal_textField()
-	{
-		return inputHexadecimal_textField;
-	}
+	public JTextField getInputHexadecimal_textField() { return inputHexadecimal_textField; }
 
+	public JTextField setDecimalOutput_textField() { return DecimalOutput_textField; }
 
-	public JTextField setDecimalOutput_textField() 
-	{
-		return DecimalOutput_textField;
-	}
+	public JTextField getDecimalOutput_textField() { return DecimalOutput_textField; }
 
-	public JTextField getDecimalOutput_textField() 
-	{
-		return DecimalOutput_textField;
-	}
-	public JButton getConvertButton()
-	{
-		return ConvertButton;
-	}
+	public JButton getConvertButton() { return ConvertButton; }
 
-	public JButton getConvertButton2()
-	{
-		return ConvertButton2;
-	}
+	public JButton getConvertButton2() { return ConvertButton2; }
 
-	public JButton getClearButton()
-	{
-		return ClearButton;
-	}
+	public JButton getClearButton() { return ClearButton; }
 
-	public JButton getPasteButton()
-	{
-		return PasteButton;
-	}
+	public JButton getPasteButton() { return PasteButton; }
 }
