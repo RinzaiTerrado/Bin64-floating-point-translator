@@ -304,7 +304,9 @@ public class MainController implements ActionListener
 	    }
 	    else
 	    {
-	    
+	    	result = normalize();
+		result = convertNormToFloat(result);
+		GUI.setDecimalOutput_textField().setText(result);
 	    }
 	
            
@@ -341,7 +343,11 @@ public class MainController implements ActionListener
 	    }
 	    else
 	    {
-	    
+	    	result = normalize();
+		result = convertNormToFloat(result);
+		result = convertFloatToFixed(result)
+		GUI.setDecimalOutput_textField().setText(result);
+		
 	    }
 	
            
