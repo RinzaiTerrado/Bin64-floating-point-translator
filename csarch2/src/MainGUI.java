@@ -51,7 +51,6 @@ public class MainGUI extends JFrame{
      * Initialize the contents of the frame.
      */
     private void initialize() {
-
         DecimalOutput_textField = new JTextField();
         DecimalOutput_textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
         DecimalOutput_textField.setBounds(317, 446, 227, 32);
@@ -116,26 +115,17 @@ public class MainGUI extends JFrame{
         inputHexadecimal_textField.setBounds(199, 184, 463, 32);
         getContentPane().add(inputHexadecimal_textField);
         //ADDITIONAL
-
     }
 
     //SET FOR BINARY INPUT
-    public void setinputBinary_textField(JTextField inputBinary_textField)
-    {
-        this.inputBinary_textField = inputBinary_textField;
-    }
+    public void setinputBinary_textField(JTextField inputBinary_textField) { this.inputBinary_textField = inputBinary_textField; }
 
     //SET FOR HEX INPUT
-    public void setInputHexadecimal_textField(JTextField inputHexadecimal_textField)
-    {
-        this.inputHexadecimal_textField = inputHexadecimal_textField;
-    }
+    public void setInputHexadecimal_textField(JTextField inputHexadecimal_textField) { this.inputHexadecimal_textField = inputHexadecimal_textField; }
 
     //GET for both Binary and Hex input
-    public JTextField getinputBinary_textField()
-    {
-        return inputBinary_textField;
-    }
+    public JTextField getinputBinary_textField() { return inputBinary_textField; }
+
     public JTextField getInputHexadecimal_textField()
     {
         return inputHexadecimal_textField;

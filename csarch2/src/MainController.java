@@ -6,11 +6,12 @@ import javax.swing.JOptionPane;
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.util.*;
 
 public class MainController implements ActionListener
 {
     private MainGUI GUI;
-    //private String hexadecimal;
+
     // inputs
     private static String sign; //first text box
     private static String exponent; //second text box
@@ -26,12 +27,12 @@ public class MainController implements ActionListener
         GUI.getPasteButton().addActionListener(this);
     }
 
-    public static String normalize(){
-    int ep = Integer.parseInt(exponent,2);
-    int e = ep-1023;
-    String binTrim = removezeros(binary);
-    return "+"+"1."+binTrim+"x2^"+e;
-}
+    public static String normalize() {
+        int ep = Integer.parseInt(exponent, 2);
+        int e = ep - 1023;
+        String binTrim = removeZeros(binary);
+        return "+" + "1." + binTrim + "x2^" + e;
+    }
     //remove zeros of binary
     private static String removeZeros(String binary) {
         boolean rzeros = false;
@@ -103,7 +104,7 @@ public class MainController implements ActionListener
         return fixedStr;
     }
 
-    private static float getFinalFloat(float decimal, int exp){
+    private static float getFinalFloat(float decimal, int exp) {
         float finaldecimal = 0;
 
         int multiplier = 1;
@@ -126,7 +127,7 @@ public class MainController implements ActionListener
         return finaldecimal;
     }
 
-    private static String convertNormToFloat(String norm){
+    private static String convertNormToFloat(String norm) {
         String[] arr = norm.split("x");
 
         String sign = arr[0].substring(0, 0);
@@ -292,14 +293,14 @@ public class MainController implements ActionListener
 				    GUI.getsign_textField().setText("");
                 }
                 
-                if (binary.length() == 0)//EXPONENT FIELD NULL {
+                if (binary.length() == 0)//EXPONENT FIELD NULL
+                {
                     JOptionPane.showMessageDialog(null, "Binary representation field is empty. Try again.");
-
                 }
                 
-                if (exponent.length() == 0)//EXPONENT FIELD NULL {
+                if (exponent.length() == 0)//EXPONENT FIELD NULL
+                {
                     JOptionPane.showMessageDialog(null, "Exponent field is empty. Try again.");
-
                 }
                 if(!(sign.equals("1")) && !(sign.equals("0")) && binary.length() == 0 && exponent.length() == 0) {
                     JOptionPane.showMessageDialog(null, "Both Binary and Hexadecimal fields are empty. Try again.");
