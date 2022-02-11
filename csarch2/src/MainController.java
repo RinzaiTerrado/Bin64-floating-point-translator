@@ -30,9 +30,17 @@ public class MainController implements ActionListener
 	public static String normalize() {
 		int ep = Integer.parseInt(exponent, 2);
 		int e = ep - 1023;
+		char finalsign = '+';
 		String binTrim = removeZeros(binary);
-		return "+" + "1." + binTrim + "x2^" + e;
-	}
+
+		if(sign.equals("0"))
+		    finalsign = '+';
+		if(sign.equals("1"))
+		    finalsign = '-';
+
+
+		return finalsign + "1." + binTrim + "x2^" + e;
+    	}
 	//remove zeros of binary
 	private static String removeZeros(String binary) {
 		boolean rzeros = false;
