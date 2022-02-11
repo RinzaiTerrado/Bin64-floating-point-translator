@@ -119,13 +119,13 @@ public class MainGUI extends JFrame{
 		inputBinary_textField.setBounds(395, 264, 268, 32);
 		getContentPane().add(inputBinary_textField);
 
-	
+
 		inputHexadecimal_textField = new JTextField();
 		inputHexadecimal_textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		inputHexadecimal_textField.setColumns(10);
 		inputHexadecimal_textField.setBounds(199, 184, 463, 32);
 		getContentPane().add(inputHexadecimal_textField);
-		
+
 
 	}
 
@@ -150,19 +150,19 @@ public class MainGUI extends JFrame{
 		this.exponent_representation_textField = exponent_representation_textField;
 	}
 
-	
+
 	public void setinputBinary_textField(JTextField inputBinary_textField)
 	{
 		this.inputBinary_textField = inputBinary_textField;
 	}
 
-	
+
 	public void setInputHexadecimal_textField(JTextField inputHexadecimal_textField)
 	{
 		this.inputHexadecimal_textField = inputHexadecimal_textField;
 	}
 
-	
+
 	public JTextField getinputBinary_textField()
 	{
 		return inputBinary_textField;
@@ -173,12 +173,12 @@ public class MainGUI extends JFrame{
 	}
 
 
-	public JTextField setDecimalOutput_textField() 
+	public JTextField setDecimalOutput_textField()
 	{
 		return DecimalOutput_textField;
 	}
 
-	public JTextField getDecimalOutput_textField() 
+	public JTextField getDecimalOutput_textField()
 	{
 		return DecimalOutput_textField;
 	}
