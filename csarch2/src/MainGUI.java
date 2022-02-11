@@ -16,9 +16,7 @@ public class MainGUI extends JFrame{
 
 
 	private JTextField DecimalOutput_textField;// decimal output
-	private JTextField exponent_textField;//REMOVE LATER
 	private JLabel lblNewLabel; //title ng program
-	private JTextField HexOutput_textField; //REMOVE LATER
 	private JButton ConvertButton; //fixed
 	private JButton ConvertButton2; //FP
 	private JTextField inputBinary_textField; //input for binary
@@ -30,9 +28,7 @@ public class MainGUI extends JFrame{
 	private JLabel lblOutput; //output label
 	private JLabel lblBinary; //binary label
 	private JLabel lblHexadecimal; //hex label
-	private JLabel exp_label; //REMOVE LATER
-	private JLabel binary_Label; //REMOVE LATER
-	private JLabel sign_label; //REMOVE LATER
+
 
 	public MainGUI() {
 		setBounds(100, 100, 878, 663);
@@ -123,13 +119,13 @@ public class MainGUI extends JFrame{
 		inputBinary_textField.setBounds(395, 264, 268, 32);
 		getContentPane().add(inputBinary_textField);
 
-		//ADDITIONAL
+	
 		inputHexadecimal_textField = new JTextField();
 		inputHexadecimal_textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		inputHexadecimal_textField.setColumns(10);
 		inputHexadecimal_textField.setBounds(199, 184, 463, 32);
 		getContentPane().add(inputHexadecimal_textField);
-		//ADDITIONAL
+		
 
 	}
 
@@ -154,25 +150,19 @@ public class MainGUI extends JFrame{
 		this.exponent_representation_textField = exponent_representation_textField;
 	}
 
-	//SET FOR BINARY INPUT
+	
 	public void setinputBinary_textField(JTextField inputBinary_textField)
 	{
 		this.inputBinary_textField = inputBinary_textField;
 	}
 
-	//SET FOR HEX INPUT
+	
 	public void setInputHexadecimal_textField(JTextField inputHexadecimal_textField)
 	{
 		this.inputHexadecimal_textField = inputHexadecimal_textField;
 	}
 
-	//REMOVE
-	public void setexponent_textField(JTextField exponent_textField)
-	{
-		this.exponent_textField = exponent_textField;
-	}
-
-	//GET for both Binary and Hex input
+	
 	public JTextField getinputBinary_textField()
 	{
 		return inputBinary_textField;
@@ -182,24 +172,13 @@ public class MainGUI extends JFrame{
 		return inputHexadecimal_textField;
 	}
 
-	//REMOVE
-	public JTextField getexponent_textField()
-	{
-		return exponent_textField;
-	}
 
-	//REMOVE since we only need 1 output text field
-	public JTextField setHexOutput_textField()
-	{
-		return HexOutput_textField;
-	}
-
-	public JTextField setDecimalOutput_textField() //setDecimalOutput_textfield() change later in maincontroller
+	public JTextField setDecimalOutput_textField() 
 	{
 		return DecimalOutput_textField;
 	}
 
-	public JTextField getDecimalOutput_textField() //setDecimalOutput_textfield() change later in maincontroller
+	public JTextField getDecimalOutput_textField() 
 	{
 		return DecimalOutput_textField;
 	}
