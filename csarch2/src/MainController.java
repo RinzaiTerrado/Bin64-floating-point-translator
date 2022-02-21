@@ -380,6 +380,23 @@ public class MainController implements ActionListener
 				JOptionPane.showMessageDialog(null, "NULL Binary Fractional part input. Please try again.");
 				canProceed = false;
 			}
+			
+			//////
+			if(sign.length() == 0 && exponent.length() == 0 && binary.length() != 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL Sign and Exponent representation input. Please try again.");
+				canProceed = false;
+			}
+			
+			if(sign.length() == 0 && exponent.length() != 0 && binary.length() == 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL Sign and Binary fractional part input. Please try again.");
+				canProceed = false;
+			}
+			
+			if(sign.length() != 0 && exponent.length() == 0 && binary.length() == 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL Exponentatial representation and Binary Fractional part input. Please try again.");
+				canProceed = false;
+			}
+		
 
 
 			if(specialCase() == true)
