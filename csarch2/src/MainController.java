@@ -365,6 +365,21 @@ public class MainController implements ActionListener
 				JOptionPane.showMessageDialog(null, "NULL input. Please try again.");
 				canProceed = false;
 			}
+			
+			if(sign.length() == 0 && exponent.length() != 0 && binary.length() != 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL Sign input. Please try again.");
+				canProceed = false;
+			}
+			
+			if(sign.length() != 0 && exponent.length() == 0 && binary.length() != 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL Exponent Representation input. Please try again.");
+				canProceed = false;
+			}
+			
+			if(sign.length() != 0 && exponent.length() != 0 && binary.length() == 0 && hexadecimal.length() == 0){
+				JOptionPane.showMessageDialog(null, "NULL Binary Fractional part input. Please try again.");
+				canProceed = false;
+			}
 
 
 			if(specialCase() == true)
